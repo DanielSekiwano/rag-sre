@@ -239,7 +239,7 @@ The general flow is:
 1. Papers are chunked, vectorised, and have the same metrics calculated on them as before (done once for comparison with neural)
 2. User sends a query to the system, which is:
    
-   * Passed to the various prompt template to form the final prompts sent to the LM
+   * Passed to the various prompt templates to form the final prompts sent to the LM
    
    * Embedded by the neural model, and used for Nearest Neighbour search with the embedded paper chunks, still thresholding as before
    
