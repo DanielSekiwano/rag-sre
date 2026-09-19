@@ -189,7 +189,7 @@ There is also no concept of negation when using TF-IDF embeddings, requiring rou
 
 <img width="1488" height="245" alt="image" src="https://github.com/user-attachments/assets/1c1a0b6d-c468-46da-a9b4-2b5e8061f30e" />
 
-We later pivot to [neural embeddings](#neural-embeddings) in an attempt to counteract these drawbacks.
+We later pivot to [neural embeddings](#vector-vs-neural-embeddings) in an attempt to counteract these drawbacks.
 
 ## Prompt Engineering
 For this project, I chose [Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2) as my LM, due to its great performance despite being lightweight and easy to run on Colab GPU. Since LMs have a limited context window, I made the decision to remove `ingredients`, and only retain `name` and `steps`. This did not significantly impact performance, likely because ingredients are usually all mentioned in `steps`.
