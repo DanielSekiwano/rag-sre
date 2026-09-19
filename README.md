@@ -66,7 +66,7 @@ I embedded each recipe $d_i$ as a TF-IDF vector $\vec{d_i}$ using the [TfidfVect
 
 Within the Vectorizer itself, I used smoothing to prevent division by zero or common words having zero weight, as well as L2-normalisation to eliminate document length bias, and sublinear term frequency scaling to prevent highly frequent words from dominating the recipe's vector representation. Finally, a minimum document frequency of 0.01% was used alongside a maximum document frequency of 40%. This means that words must appear in at least ~23 documents to be considered an actual token, and if they appear in more than ~92655 documents, they are considered as noise. This is all to aid in having the most distinguishing words for each recipe.
 
-Here is an example output for of the top 20 words for a recipe, with their TFIDF values:
+Here is an example output for of the top 20 words for a recipe, with their TF-IDF values:
 ```
 Recipe: kitchen chili:
 kitchen        0.40
@@ -112,9 +112,12 @@ $\text{Top-}p$% of recipes is also another potential improvement, but this time 
 
 My relative score threshold in combination with the similarity floor combines the above similarity floor with the $\text{top-}p$% method, mitigating the downsides of each, as we retrieve documents that are relevant based on how relevant the most relevant document is, similar to rescaling our domain, but we do not venture into similarities that are too low to be considered.
 
-The relative score threshold, $\alpha$, and the similarity floor, cannot be set arbitrarily, as stated above. Instead, I tuned these hyperparamters, using the a grid search with the Macro-F1 score of retrieved recipes as a criterion to maximise. The results of this can be seen in Table 1:
+The relative score threshold, $\alpha$, and the similarity floor, cannot be set arbitrarily, as stated above. Instead, I tuned these hyperparamters, using the a grid search with the Macro-F1 score of retrieved recipes as a criterion to maximise. The results of this can be seen in Table 1, alongside a heatmap visualising the optimisation surface:
 
 <img width="562" height="393" alt="image" src="https://github.com/user-attachments/assets/45ef2d59-54d5-4438-9379-e7e3583a4824" />
+
+<img width="741" height="556" alt="image" src="https://github.com/user-attachments/assets/9a2a0093-7393-4f4d-96ab-2e87e2c1646b" />
+
 
 The Macro-F1 score peaked with a floor of 0.25 and an $\alpha$ of 0.59, and so I justifiably set the hyperparamters.
 
@@ -171,4 +174,77 @@ Found 125 recipes for 'vegetarian lasagna but easy':
     (Ratio to best: 0.8848)
 ------------------------------
 ```
-### TF-IDF Drawbacks
+## TF-IDF Drawbacks
+Embedding documents as TF-IDF vectors does have its drawbacks.
+
+For example, TF-IDF embeddings have no semantics knowledge e.g. not understanding what a stone fruit is:
+
+<img width="1461" height="259" alt="image" src="https://github.com/user-attachments/assets/4ad17fbc-a475-4ad7-81f0-dd942ce0569f" />
+
+<img width="1130" height="282" alt="image" src="https://github.com/user-attachments/assets/826c8125-74a7-4752-91ed-59e310f84c9f" />
+
+There is also no concept of negation when using TF-IDF embeddings, requiring roundabout queries to achieve search goals:
+
+<img width="1363" height="287" alt="image" src="https://github.com/user-attachments/assets/5b0bce60-848e-49f2-823c-d3df2c059923" />
+
+<img width="1488" height="245" alt="image" src="https://github.com/user-attachments/assets/1c1a0b6d-c468-46da-a9b4-2b5e8061f30e" />
+
+We later pivot to [neural embeddings](#neural-embeddings) in an attempt to counteract these drawbacks.
+
+## Prompt Engineering
+For this project, I chose [Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2) as my LM, due to its great performance despite being lightweight and easy to run on Colab GPU. Since LMs have a limited context window, I made the decision to remove `ingredients`, and only retain `name` and `steps`. This did not significantly impact performance, likely because ingredients are usually all mentioned in `steps`.
+
+Using the following prompt template:
+```python
+# Context construction using recipe fields: 'name' and 'steps'
+context = "\n\n".join([
+    f"Name: {r['name']}\nSteps: {r['steps']}"
+    for r in retrieved_recipes
+])
+
+messages = [
+    {
+        "role": "user",
+        "content": f"""You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+Recipes:
+{context}
+
+User Request: {query}"""
+    }
+]
+
+prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+```
+the LM was able to reason across recipes, and determine when it could not answer a request, evidenced by answers such as:
+```
+"an easier roux making process compared to the traditional method that involves waiting up to 2 hours … rather than waiting for the flour to brown on its own … making the process more efficient."
+"there isn't a specific meatball recipe … that matches any of the provided recipes … since Bertha's Meatballs can be made and simmered in spaghetti sauce, this recipe will produce a Spaghetti and Meatballs dish.”
+```
+Full results can be found [here]().
+
+# Part 2: ACL Papers
+In this section, we deal with a subset of all the Natural Language Processing (NLP) papers from the ACL Anthology, which was scraped and parsed by [Rohatgi et al. (2023)](https://aclanthology.org/2023.emnlp-main.640/).
+
+These technical papers have a much richer word vocabulary, partly due to being much longer than the recipes from Part 1, and also due to jargon and proper names. For this section, we will focus on using neural document embeddings as opposed to a vector space model.
+
+## Architecture
+Once again, we can break this system down into its building blocks, visualising with a flowchart:
+
+<img width="1399" height="682" alt="image" src="https://github.com/user-attachments/assets/062b53b4-d5bc-4550-ab9a-32d227947472" />
+
+The general flow is:
+1. Papers are chunked, vectorised, and have the same metrics calculated on them as before (done once for comparison with neural)
+2. User sends a query to the system, which is:
+   
+   * Passed to the various prompt template to form the final prompts sent to the LM
+   
+   * Embedded by the neural model, and used for Nearest Neighbour search with the embedded paper chunks, still thresholding as before
+   
+3. Prompt template formats the query and the context (relevant paper chunks) according to the prompt syntax of the LM, which returns an informed response
+
+We can now look at each of these components individually.
+
+## Vector vs Neural Embeddings
