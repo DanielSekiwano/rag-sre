@@ -247,4 +247,93 @@ The general flow is:
 
 We can now look at each of these components individually.
 
-## Vector vs Neural Embeddings
+## Chunking
+Our LM has a fixed size context window, and so for this section I could no longer pass the entire documents in as context. A more precise way to provide necessary context without filling up the LM's context is through fixed-size chunking. Using a sliding window approach, I created fixed-size chunks of 1000 characters, with an overlap of 100 characters. Instead of looking for the nearest **papers** to the query, my system searches for the nearest **chunks** to the query. This does not fill up the context window, and also pinpoints for the LM where exactly in the paper it is likely to find an answer, using the surrounding 1000 characters.
+
+Starting with 2153 papers, this yielded 55254 chunks, which we can treat the same way we treated the earlier short recipes.
+
+### + Title Injection
+One potential downside of chunking our papers is losing the importance of the paper's title in each chunk. This can easily be rectified by prepending (injecting) each chunk with the title of the paper it belongs to, ensuring that e.g. chunks of non-technical words do not get completely lost. This motivation for this, and comparison between TF-IDF with no title injection, TF-IDF with title injection, and neural methods with title injection will be seen [later]().
+
+For brevity's sake, the metrics shown below are the metrics for TF-IDF with the title-injected chunks.
+
+## Vector ACL
+First, here is an example paper:
+```
+'acl_id' = W02-0603
+
+'abstract' = We present two methods for unsupervised segmentation of words into morphemelike units. The model utilized is especially suited for languages with a rich morphology, such as Finnish. The first method is based on the Minimum Description Length (MDL) principle and works online. In the second method, Maximum Likelihood (ML) optimization is used. The quality of the segmentations is measured using an evaluation method that compares the segmentations produced to an existing morphological analysis. Experiments on both Finnish and English corpora show that the presented methods perform well compared to a current stateof-the-art system.
+
+'full_text' = We present two methods for unsupervised segmentation of words into morphemelike units. The model utilized is especially suited for languages with a rich morphology, such as Finnish. The first method is based on the Minimum... Recursive...
+
+'year' = 2002
+
+'author' = Creutz, Mathias  and
+Lagus, Krista
+
+'title' = Unsupervised Discovery of Morphemes
+
+```
+The important fields here are `title`, `abstract` and `full_text`. `abstract` is included here as it gives a good summary of the paper, and sometimes the answer we are looking for will be in the chunk(s) where the abstract lies.
+
+### Chunk Embeddings
+The pipeline here follows the same set of steps seen in [Document Embeddings](#document-embeddings). As stated above, we now look at chunks, as opposed to full papers. Here are the 20 most important words from Chunk 1 and Chunk 5 in our corpus:
+```
+Chunk 1, [ID 2001.mtsummit-papers.24]: Derivational morphology to the rescue: how it can help resolve unfound words in {MT}:
+unfound          0.44
+transfer         0.27
+mt               0.25
+rescue           0.19
+derivational     0.17
+formation        0.15
+guess            0.15
+incomplete       0.15
+ibm              0.15
+unrestricted     0.15
+surround         0.15
+word             0.14
+interestingly    0.14
+creation         0.13
+publish          0.13
+poor             0.13
+go               0.12
+resolve          0.12
+fail             0.12
+morphology       0.12
+```
+```
+Chunk 5, [ID 2001.mtsummit-papers.24]: Derivational morphology to the rescue: how it can help resolve unfound words in {MT}:
+unfound         0.33
+affix           0.28
+derivational    0.26
+morphology      0.19
+mt              0.19
+wolff           0.17
+mccord          0.17
+handle          0.17
+hutchins        0.17
+somers          0.16
+subst           0.16
+infix           0.15
+circumfixe      0.15
+rescue          0.14
+operation       0.14
+application     0.14
+sproat          0.14
+strip           0.13
+adjustment      0.13
+transfer        0.13
+```
+We can see that by chunking, different parts of our papers will share many words, evidenced by e.g. `unfound` carrying the most weight in both chunks. The difference here is seen when looking at slightly less important words, e.g. in Chunk 1 `morphology` is 20th most important, whereas in Chunk 5 it is the 4th most important word.
+
+### Metrics
+For these papers, I used the same method of [retrieval](#retrieval), including the same [thresholding](#thresholding), which yielded the following optimal floor and $\alpha$:
+
+<img width="578" height="358" alt="image" src="https://github.com/user-attachments/assets/4513f20d-53f0-4300-9f8b-e883a477b8c4" />
+
+The retrieval metrics and their comparison against neural methods can be seen [later]().
+
+## Neural ACL
+To generate neural embeddings for these chunks, I settled upon the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), since it is lightweight whilst being effective at generating embeddings, and I faced a GPU limit through Colab.
+
+This pretrained sentence transformer generates 384-D vectors for each chunk, and no longer uses a word-level vocabulary, but rather subword tokenisation. This does come with some disadvantages, an example being that subwords are based on frequency, not meaning, which can lead to meaningless subwords that are less useful than those that actually build up words.
