@@ -250,7 +250,7 @@ We can now look at each of these components individually.
 ## Chunking
 Our LM has a fixed size context window, and so for this section I could no longer pass the entire documents in as context. A more precise way to provide necessary context without filling up the LM's context is through fixed-size chunking. Using a sliding window approach, I created fixed-size chunks of 1000 characters, with an overlap of 100 characters. Instead of looking for the nearest **papers** to the query, my system searches for the nearest **chunks** to the query. This does not fill up the context window, and also pinpoints for the LM where exactly in the paper it is likely to find an answer, using the surrounding 1000 characters.
 
-Starting with 2153 papers, this yielded 55254 chunks, which we can treat the same way we treated the earlier short recipes.
+Starting with 2153 papers, this yielded 55354 chunks, which we can treat the same way we treated the earlier short recipes.
 
 ### + Title Injection
 One potential downside of chunking our papers is losing the importance of the paper's title in each chunk. This can easily be rectified by prepending (injecting) each chunk with the title of the paper it belongs to, ensuring that e.g. chunks of non-technical words do not get completely lost. This motivation for this, and comparison between TF-IDF with no title injection, TF-IDF with title injection, and neural methods with title injection will be seen [later]().
@@ -336,4 +336,38 @@ The retrieval metrics and their comparison against neural methods can be seen [l
 ## Neural ACL
 To generate neural embeddings for these chunks, I settled upon the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), since it is lightweight whilst being effective at generating embeddings, and I faced a GPU limit through Colab.
 
-This pretrained sentence transformer generates 384-D vectors for each chunk, and no longer uses a word-level vocabulary, but rather subword tokenisation. This does come with some disadvantages, an example being that subwords are based on frequency, not meaning, which can lead to meaningless subwords that are less useful than those that actually build up words.
+This pretrained sentence transformer generates dense 384-D vectors for each chunk, and no longer uses a word-level vocabulary, but rather subword tokenisation. This does come with some disadvantages, an example being that subwords are based on frequency, not meaning, which can lead to meaningless subwords that are less useful than those that actually build up words.
+
+### Metrics
+We once again use the thresholding + floor method to determine how many chunks we retrieve. The results of the hyperparameter grid search can be seen in the table below:
+
+<img width="564" height="348" alt="image" src="https://github.com/user-attachments/assets/53bd429f-12fb-49da-9f09-d276423ef89d" />
+
+Again we notice that raising the floor any further decreases the Macro-F1, so we halt with a floor of 0.30, and an $\alpha$ of 0.95.
+
+## Vector vs Neural ACL
+We can now do a direct comparison of three iterations of embeddings for our ACL papers:
+1. TF-IDF with no title injection
+2. TF-IDF with title injection
+3. Neural embeddings with title injection
+
+<img width="1173" height="253" alt="image" src="https://github.com/user-attachments/assets/b89d6896-b484-484e-baa6-b5c75cb04a53" />
+
+### Analysis of Title Injection
+Looking first at the two TF-IDF configurations, we can clearly see the impact of title injection. By prepending the paper's title to each fixed-size chunk, we preserve the global context of the paper even in chunks that contain highly specific, localised jargon. 
+
+This simple heuristic yields a massive improvement in precision, jumping from a Macro-Precision of 0.3855 to 0.5033, and a Micro-Precision of 0.2550 to 0.4129. While forcing this exact-match constraint causes a slight drop in recall (Macro-Recall falls from 0.5440 to 0.4930), the overall F1 scores and Mean Average Precision (MAP) improve significantly. The MAP rises from 0.4235 to 0.4507, confirming that title injection creates a much stronger lexical baseline.
+
+### TF-IDF vs. Neural Embeddings
+When we compare our best TF-IDF configuration against the Neural approach, the nuanced differences between lexical and semantic search become apparent.
+
+The Neural model establishes itself as the superior architecture globally, achieving the highest Macro-Average Precision (0.5203), Macro-Average F1 (0.4702), and overall MAP (0.4556). Because Macro metrics compute scores independently per class before taking an unweighted mean, this performance proves that dense neural embeddings successfully generalise across rare, long-tail queries. They capture contextual synonymy and underlying intent in a way that TF-IDF simply cannot.
+
+It is worth noting that the `TF-IDF title inj.` model achieves a slightly higher Micro-Average Precision (0.4129) and Micro-Average F1 (0.3914) compared to the Neural model's 0.3785 and 0.3840 respectively. Micro metrics aggregate raw document counts globally, which heavily weights frequent classes and exact keyword overlaps. Lexical matching naturally excels here when a query contains the exact terminology present in a paper's injected title.
+
+### Why Neural Wins
+Despite TF-IDF's minor advantage in micro-level exact matching, the **Neural architecture is definitively the best approach** for our RAG pipeline. 
+
+In information retrieval tasks destined for an LM, Mean Average Precision (MAP) is arguably the most critical metric. Because our LM has a strict, fixed-size context window, we need the most relevant chunks placed at the very top of the ranking. By achieving the highest MAP and Macro-F1 scores, the Neural model demonstrates superior global ranking quality.
+
+Furthermore, pivoting to the Neural approach successfully overcomes the fundamental drawbacks of TF-IDF identified in Part 1—such as the inability to handle synonyms, multi-word semantic concepts, or negation. This ensures our LM receives the highest quality, most contextually relevant chunks possible, directly improving the downstream reasoning and generation capabilities of the engine.
