@@ -403,7 +403,7 @@ In information retrieval tasks destined for an LM, Mean Average Precision (MAP) 
 Furthermore, pivoting to the Neural approach successfully overcomes the fundamental drawbacks of TF-IDF identified in Part 1—such as the inability to handle synonyms, multi-word semantic concepts, or negation. This ensures our LM receives the highest quality, most contextually relevant chunks possible, directly improving the downstream reasoning and generation capabilities of the engine.
 
 ## Hooking up to LM
-Now that the retrieval system is fully set up, we must link it to our LM, with four main templates - one basic template, where the query is simply passed to the LM with the context, and three other templates ([query rewriting](#query-rewriting), [consecutive query rewriting](#consecutive-query-rewriting), [HYpothetical Document Embeddings (HyDE)](#hypothetical-document-embeddings-(HyDE)), for which we can analyse the output and reason about whether they improve the RAG system.
+Now that the retrieval system is fully set up, we must link it to our LM, with four main templates - one basic template, where the query is simply passed to the LM with the context, and three other templates ([query rewriting](#query-rewriting), [consecutive query rewriting](#consecutive-query-rewriting), [HYpothetical Document Embeddings (HyDE)](#hypothetical-document-embeddings-HyDE), for which we can analyse the output and reason about whether they improve the RAG system.
 
 Before we look at the individual templates to modify our input query, here is the template that gets passed to the LM in all these cases:
 ```python
@@ -443,7 +443,7 @@ neural_queries = [
 ]
 ```
 
-Results are calculated in one pass for efficiency, through all the templates, and so interesting snippets will be shown for each template. The full list of responses for all 5 queries can be found in [neural_results.md](). Here we will only look at interesting snippets. The only change with the following templates is of the query passed to the above general template, and thus the context (chunks retrieved) also likely changes.
+Results are calculated in one pass for efficiency, through all the templates, and so interesting snippets will be shown for each template. The full list of responses for all 5 queries can be found in [paper_lm_results.txt](docs/paper_lm_results.txt). Here we will only look at interesting snippets. The only change with the following templates is of the query passed to the above general template, and thus the context (chunks retrieved) also likely changes.
 
 ### Initial Query
 Here we simply pass the unmodified query to our LM, along with the context retrieved for said query.
