@@ -4,6 +4,40 @@
 > 
 > This is a written report on my RAG project completed at [KU Leuven](https://www.kuleuven.be/english/kuleuven). We were supplied the datasets for both parts, as well as some boilerplate code for dataset loading utilities. The methodology (including the processing pipeline and system architecture) was designed independently.
 
+# Table of Contents
+
+1. [Recipe Reasoning](#part-1-recipe-reasoning)
+   * [Architecture](#architecture)
+   * [Preprocessing](#preprocessing)
+   * [Document Embeddings](#document-embeddings)
+   * [Retrieval](#retrieval)
+     * [Thresholding](#thresholding)
+     * [Metrics](#metrics)
+     * [Retrieved Recipes](#retrieved-recipes)
+   * [TF-IDF Drawbacks](#tf-idf-drawbacks)
+   * [Prompt Engineering](#prompt-engineering)
+
+2. [ACL Papers](#part-2-acl-papers)
+   * [Architecture](#architecture-1)
+   * [Chunking](#chunking)
+     * [+ Title Injection](#-title-injection)
+   * [Vector ACL](#vector-acl)
+      * [Chunk Embeddings](#chunk-embeddings)
+      * [Metrics](#metrics-1)
+   * [Neural ACL](#neural-acl)
+      * [Metrics](#metrics-2)
+   * [Vector vs Neural ACL](#vector-vs-neural-acl)
+      * [Analysis of Title Injection](#analysis-of-title-injection)
+      * [TF-IDF vs Neural Embeddings](#tf-idf-vs-neural-embeddings)
+      * [Why Neural Wins](#why-neural-wins)
+   * [Hooking up to LM](#hooking-up-to-lm)
+      * [Initial Query](#initial-query)
+      * [Query Rewriting](#query-rewriting)
+      * [Consecutive Query Rewriting](#consecutive-query-rewriting)
+      * [Hypothetical Document Embeddings (HyDE)](#hypothetical-document-embeddings-hyde)
+
+3. [Conclusion](#conclusion)
+
 # Part 1: Recipe Reasoning
 The following synopsis was provided by KU Leuven:
 
@@ -388,7 +422,7 @@ Looking first at the two TF-IDF configurations, we can clearly see the impact of
 
 This simple heuristic yields a massive improvement in precision, jumping from a Macro-Precision of 0.3855 to 0.5033, and a Micro-Precision of 0.2550 to 0.4129. While forcing this exact-match constraint causes a slight drop in recall (Macro-Recall falls from 0.5440 to 0.4930), the overall F1 scores and Mean Average Precision (MAP) improve significantly. The MAP rises from 0.4235 to 0.4507, confirming that title injection creates a much stronger lexical baseline.
 
-### TF-IDF vs. Neural Embeddings
+### TF-IDF vs Neural Embeddings
 When we compare our best TF-IDF configuration against the Neural approach, the nuanced differences between lexical and semantic search become apparent.
 
 The Neural model establishes itself as the superior architecture globally, achieving the highest Macro-Average Precision (0.5203), Macro-Average F1 (0.4702), and overall MAP (0.4556). Because Macro metrics compute scores independently per class before taking an unweighted mean, this performance proves that dense neural embeddings successfully generalise across rare, long-tail queries. They capture contextual synonymy and underlying intent in a way that TF-IDF simply cannot.
