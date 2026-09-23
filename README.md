@@ -21,7 +21,7 @@ The following synopsis was provided by KU Leuven:
 ## Architecture
 We can break this pipeline down into a set of high-level steps, visualised below as a flowchart:
 
-<img width="1473" height="446" alt="image" src="https://github.com/user-attachments/assets/df5b1194-e27a-4549-bcff-953f4a6fe1f5" />
+![recipe_arc](images/recipe_arc.png)
 
 The general flow is:
 1. Recipes are preprocessed, vectorised, and stored by the system
@@ -114,17 +114,16 @@ My relative score threshold combines the similarity floor with the $\text{top-}p
 
 The relative score threshold, $\alpha$, and the similarity floor, cannot be set arbitrarily, as stated above. Instead, I tuned these hyperparameters, using a grid search with the Macro-F1 score of retrieved recipes as a criterion to maximise. The results of this can be seen in Table 1, alongside a heatmap visualising the optimisation surface:
 
-<img width="562" height="393" alt="image" src="https://github.com/user-attachments/assets/45ef2d59-54d5-4438-9379-e7e3583a4824" />
+![recipe_grid](images/recipe_grid.png)
 
-<img width="741" height="556" alt="image" src="https://github.com/user-attachments/assets/9a2a0093-7393-4f4d-96ab-2e87e2c1646b" />
-
+![recipe_grid_hm](images/recipe_grid_hm.png)
 
 The Macro-F1 score peaked with a floor of 0.25 and an $\alpha$ of 0.59, and so I justifiably set the hyperparameters.
 
 ### Metrics
 I then calculated the macro- and micro-average precision, recall, F1 for the entire set of queries (provided as tests), as well as the Mean Average Precision (MAP), both with and without tags included in the preprocessing step of the recipes. These metrics can be seen below in Table 2:
 
-<img width="1068" height="170" alt="image" src="https://github.com/user-attachments/assets/a1242c1c-4932-42d1-b612-5c81fbcaa5f0" />
+![recipe_metrics](images/recipe_metrics.png)
 
 We notice here that excluding `tags` from the recipes outperforms their inclusion, most clearly demonstrated in the micro-average metrics as well as the MAP, providing sufficient justification for excluding the `tags` field from the recipes.
 
@@ -179,17 +178,48 @@ Embedding documents as TF-IDF vectors does have its drawbacks.
 
 For example, TF-IDF embeddings have no semantic knowledge e.g. not understanding what a stone fruit is:
 
-<img width="1461" height="259" alt="image" src="https://github.com/user-attachments/assets/4ad17fbc-a475-4ad7-81f0-dd942ce0569f" />
+```
+Found 80 recipes for 'stone fruit crumble with honey':
+--------------------------------------------------
+1.  [ID: 209827] tess fruit crumble
+    Ingredients: flour, brown sugar, butter, oatmeal, fruit, cinnamon
+    Steps: mix fruit wiht 1 t flour , 1 t sugar and the cinnamon, crumble together flour , brown sugar , butter and oatmeal, butter a 9x9 pan and pour in fruit, top with crumble and bake at 350 degrees until browned and bubbly
+    Similarity Score: 0.4556
+    (Ratio to best: 1.0000)
+```
 
-<img width="1130" height="282" alt="image" src="https://github.com/user-attachments/assets/826c8125-74a7-4752-91ed-59e310f84c9f" />
+```
+Found 88 recipes for 'apricot crumble with honey':
+--------------------------------------------------
+1.  [ID: 7470] apple apricot honey crumble
+    Ingredients: dried apricots, boiling water, pie apples, cinnamon, honey, butter, butter recipe cake mix, oats, sliced almonds
+    Steps: preheat oven to 200, c & lightly grease a 20cm x 28cm baking dish, place apricots in a heat resistant bowl and pour over boiling water , allow to stand 5 mins or until soft , drain, combine apricots , apples & cinnamon together , spoon into prepared dish and drizzle with honey, in a separate bowl , rub butter into dry cake mix and stir in oats & almonds, spoon crumble mixture over the fruit and bake for 20-25 mins or until golden & crisp
+    Similarity Score: 0.6101
+    (Ratio to best: 1.0000)
+```
 
 There is also no concept of negation when using TF-IDF embeddings, requiring roundabout queries to achieve search goals:
 
-<img width="1363" height="287" alt="image" src="https://github.com/user-attachments/assets/5b0bce60-848e-49f2-823c-d3df2c059923" />
+```
+Found 47 recipes for 'pasta dinner without beef':
+--------------------------------------------------
+1.  [ID: 75153] easy beef skillet dinner
+    Ingredients: ground beef, onion, bell pepper, spaghetti, beef broth, pasta
+    Steps: brown ground beef , drain, add onion& bell pepper and cook until tender, add pasta sauce and beef broth, bring to a boil, add pasta, when mixture is bubbling , turn heat down to medium, cook over medium heat until pasta is tender
+    Similarity Score: 0.7146
+    (Ratio to best: 1.0000)
+```
 
-<img width="1488" height="245" alt="image" src="https://github.com/user-attachments/assets/1c1a0b6d-c468-46da-a9b4-2b5e8061f30e" />
-
-We later pivot to [neural embeddings](#vector-vs-neural-embeddings) in an attempt to counteract these drawbacks.
+```
+Found 151 recipes for 'pasta dinner garlic olive oil mushroom with a white sauce':
+--------------------------------------------------
+1.  [ID: 154059] pasta mushroom garlic sauce olives
+    Ingredients: mushrooms, garlic, stock, cream, salt, butter, black pepper, fresh parsley, olive
+    Steps: heat butter in a skillet, simmer mushrooms in it, add garlic, pour in stock, stir in cream, boil the sauce , uncovered , until it thickens, add salt , pepper and parsley, transfer the prepared pasta into a serving dish, pour the above prepared sauce over the pasta, top with olives, serve immediately
+    Similarity Score: 0.5541
+    (Ratio to best: 1.0000)
+```
+We later pivot to [neural embeddings](#vector-vs-neural-acl) in an attempt to counteract these drawbacks.
 
 ## Prompt Engineering
 For this project, I chose [Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2) as my LM, due to its great performance despite being lightweight and easy to run on Colab GPU. Since LMs have a limited context window, I made the decision to remove `ingredients`, and only retain `name` and `steps`. This did not significantly impact performance, likely because ingredients are usually all mentioned in `steps`.
@@ -223,7 +253,7 @@ Using this structure, the LM was able to reason across recipes, and determine wh
 "an easier roux making process compared to the traditional method that involves waiting up to 2 hours … rather than waiting for the flour to brown on its own … making the process more efficient."
 "there isn't a specific meatball recipe … that matches any of the provided recipes … since Bertha's Meatballs can be made and simmered in spaghetti sauce, this recipe will produce a Spaghetti and Meatballs dish.”
 ```
-Full results can be found [here]().
+Full results can be found in [recipe_lm_results.txt](docs/recipe_lm_results.txt).
 
 # Part 2: ACL Papers
 In this section, we deal with a subset of all the Natural Language Processing (NLP) papers from the ACL Anthology, which was scraped and parsed by [Rohatgi et al. (2023)](https://aclanthology.org/2023.emnlp-main.640/).
@@ -233,7 +263,7 @@ These technical papers have a much richer word vocabulary, partly due to being m
 ## Architecture
 Once again, we can break this system down into its building blocks, visualising with a flowchart:
 
-<img width="1399" height="682" alt="image" src="https://github.com/user-attachments/assets/062b53b4-d5bc-4550-ab9a-32d227947472" />
+![paper_arc](images/paper_arc.png)
 
 The general flow is:
 1. Papers are chunked, vectorised, and have the same metrics calculated on them as before (done once for comparison with neural)
@@ -253,7 +283,7 @@ Our LM has a fixed-size context window, and so for this section I could no longe
 Starting with 2153 papers, this yielded 55354 chunks, which we can treat the same way we treated the earlier short recipes.
 
 ### + Title Injection
-One potential downside of chunking our papers is losing the importance of the paper's title in each chunk. This can easily be rectified by prepending (injecting) each chunk with the title of the paper it belongs to, ensuring that e.g. chunks of non-technical words do not get completely lost. The motivation for this, and comparison between TF-IDF with no title injection, TF-IDF with title injection, and neural methods with title injection will be seen [later]().
+One potential downside of chunking our papers is losing the importance of the paper's title in each chunk. This can easily be rectified by prepending (injecting) each chunk with the title of the paper it belongs to, ensuring that e.g. chunks of non-technical words do not get completely lost. The motivation for this, and comparison between TF-IDF with no title injection, TF-IDF with title injection, and neural methods with title injection will be seen [later](#vector-vs-neural-acl).
 
 For brevity's sake, the metrics shown below are the metrics for TF-IDF with the title-injected chunks.
 
@@ -329,9 +359,9 @@ We can see that by chunking, different parts of our papers will share many words
 ### Metrics
 For these papers, I used the same method of [retrieval](#retrieval), including the same [thresholding](#thresholding), which yielded the following optimal floor and $\alpha$:
 
-<img width="578" height="358" alt="image" src="https://github.com/user-attachments/assets/4513f20d-53f0-4300-9f8b-e883a477b8c4" />
+![paper_tfidf_grid](images/paper_tfidf_grid.png)
 
-The retrieval metrics and their comparison against neural methods can be seen [later]().
+The retrieval metrics and their comparison against neural methods can be seen [later](#vector-vs-neural-acl).
 
 ## Neural ACL
 To generate neural embeddings for these chunks, I settled upon the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), since it is lightweight whilst being effective at generating embeddings, and I faced a GPU limit through Colab.
@@ -341,7 +371,7 @@ This pretrained sentence transformer generates dense 384-D vectors for each chun
 ### Metrics
 We once again use the thresholding + floor method to determine how many chunks we retrieve. The results of the hyperparameter grid search can be seen in the table below:
 
-<img width="564" height="348" alt="image" src="https://github.com/user-attachments/assets/53bd429f-12fb-49da-9f09-d276423ef89d" />
+![paper_neural_grid](images/paper_neural_grid.png)
 
 Again we notice that raising the floor any further decreases the Macro-F1, so we halt with a floor of 0.30, and an $\alpha$ of 0.95.
 
@@ -351,7 +381,7 @@ We can now do a direct comparison of three iterations of embeddings for our ACL 
 2. TF-IDF with title injection
 3. Neural embeddings with title injection
 
-<img width="1173" height="253" alt="image" src="https://github.com/user-attachments/assets/b89d6896-b484-484e-baa6-b5c75cb04a53" />
+![paper_metrics](images/paper_metrics.png)
 
 ### Analysis of Title Injection
 Looking first at the two TF-IDF configurations, we can clearly see the impact of title injection. By prepending the paper's title to each fixed-size chunk, we preserve the global context of the paper even in chunks that contain highly specific, localised jargon. 
