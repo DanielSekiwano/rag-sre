@@ -1,5 +1,7 @@
-Each query has the following structure:
-1. <s> [INST] template (prompting, recipes retrieved, user request) [/INST] LM RESPONSE </s>
+Each LM prompt has the following structure:
+<s> [INST] template (prompting, recipes retrieved, user request) [/INST] LM RESPONSE </s>
+
+
 
 <s> [INST] 
             You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
