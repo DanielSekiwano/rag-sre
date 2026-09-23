@@ -6,7 +6,7 @@
 
 # Table of Contents
 
-1. [Recipe Reasoning](#part-1-recipe-reasoning)
+1. [Recipe Reasoning](#1-recipe-reasoning)
    * [Architecture](#architecture)
    * [Preprocessing](#preprocessing)
    * [Document Embeddings](#document-embeddings)
@@ -17,7 +17,7 @@
    * [TF-IDF Drawbacks](#tf-idf-drawbacks)
    * [Prompt Engineering](#prompt-engineering)
 
-2. [ACL Papers](#part-2-acl-papers)
+2. [ACL Papers](#2-acl-papers)
    * [Architecture](#architecture-1)
    * [Chunking](#chunking)
      * [+ Title Injection](#-title-injection)
@@ -36,9 +36,9 @@
       * [Consecutive Query Rewriting](#consecutive-query-rewriting)
       * [Hypothetical Document Embeddings (HyDE)](#hypothetical-document-embeddings-hyde)
 
-3. [Conclusion](#conclusion)
+3. [Conclusion](#3-conclusion)
 
-# Part 1: Recipe Reasoning
+# 1. Recipe Reasoning
 The following synopsis was provided by KU Leuven:
 
 *You are given the cooking recipes dataset introduced by Majumder et al. (2019). This dataset contains over 180 000 recipes and over 700 000 recipe reviews covering 18 years of user interactions and uploads on food.com. We are only interested in the recipes subset for this project. We have filtered the dataset such that it contains only the relevant metadata for your implementation, and processed it for easy integration with the datasets package. For each recipe in the dataset, the following information is provided:*
@@ -289,7 +289,7 @@ Using this structure, the LM was able to reason across recipes, and determine wh
 ```
 Full results can be found in [recipe_lm_results.txt](docs/recipe_lm_results.txt).
 
-# Part 2: ACL Papers
+# 2. ACL Papers
 In this section, we deal with a subset of all the Natural Language Processing (NLP) papers from the ACL Anthology, which was scraped and parsed by [Rohatgi et al. (2023)](https://aclanthology.org/2023.emnlp-main.640/).
 
 These technical papers have a much richer word vocabulary, partly due to being much longer than the recipes from Part 1, and also due to jargon and proper names. For this section, we will focus on using neural document embeddings as opposed to a vector space model.
@@ -631,7 +631,7 @@ investigation for performance gains.
 
 Overall, all of these templates bring something unique - the initial query acts as a broad net cast across the papers, while rewritten queries can help with acronym expansion, increasing the range of papers accessible, and HyDE acts as a scalpel, bridging the semantic gap between short queries and long passages.
 
-# Conclusion
+# 3. Conclusion
 Through the development of this Retrieval-Augmented Generation engine across two distinctly different domains (recipe synthesis and technical NLP papers) it is evident that an effective RAG pipeline requires much more than simply connecting a database to a language model. The quality of the final output is inextricably linked to empirical tuning at every stage of the architecture.
 
 In **Part 1**, establishing a lexical baseline with TF-IDF highlighted the importance of aggressive preprocessing and signal-to-noise ratio (SNR) filtering. However, the fundamental limitations of sparse word-level IR - namely its inability to capture semantic meaning, synonymy, or negation - created strict ceilings on retrieval accuracy.
