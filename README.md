@@ -2,7 +2,7 @@
 > [!NOTE]
 > Source code is withheld to comply with academic project guidelines at the [**KU Leuven**](https://www.kuleuven.be/english/kuleuven). This repository functions solely as a technical showcase detailing architecture, implementation strategy and results.
 > 
-> This is a written report on my RAG project completed at [KU Leuven](https://www.kuleuven.be/english/kuleuven). We were supplied the datasets for both parts, as well as some boilerplate code for dataset loading utilities. The methodology (including the processing pipeline and system architecture) was designed independently.
+> This is a written report on my individual RAG project completed at [KU Leuven](https://www.kuleuven.be/english/kuleuven). We were supplied the datasets for both parts, as well as some boilerplate code for dataset loading utilities. The methodology (including the processing pipeline and system architecture) was designed independently.
 
 # Table of Contents
 
