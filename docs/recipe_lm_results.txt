@@ -1,0 +1,181 @@
+<s> [INST] 
+            You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+            1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+            2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+
+            Recipes:
+            Name: simple chicken gumbo
+Steps: heat oil in large pot and add flour to make a roux, make the roux as dark as you can without burning it , or yah yah in cajun country, add the chopped onions when roux is ready , stir for about a minute , then add the water, add chicken , salt and pepper , bring to a boil , and simmer until chicken is very tender, serve in a bowl over cooked white rice
+
+Name: easy gumbo
+Steps: to make roux: combine flour and vegetable oil in a medium to large saucepan on low heat, stirring frequently , allow flour / oil combination cook until medium brown, this could take up to 2 hours, while waiting for the roux to cook , pour chicken broth into a large pot and heat to a boil, cut or tear all of the meat from the rotisserie chicken into bite size pieces and place it into the boiling chicken broth, add celery , carrots , onion , tabasco sauce , cayenne pepper , add basil leaves to chicken and broth, allow soup mixture to boil for about 1 / 2 an hour stirring frequently, lower heat of soup, once roux has reached a brown color , combine the roux with soup to make gumbo !, bring gumbo to a boil for 10 minutes, lower heat, serve over rice
+
+Name: cajun style chicken gumbo
+Steps: cut chicken into 1 inch pieces, place in medium bowl, sprinkle with seasoning and thyme, toss well, set aside, heat oil in large sauce pan over medium-high heat, add onion , bell pepper , carrots , celery and garlic to saucepan, cover and cook 10 minutes or until vegetable are crisp-tender , stirring once, add chicken, cook 3 minutes , stirring occasionally, sprinkle mixture with flour , cook 1 minute , stirring frequently, add chicken broth , tomatoes and pepper sauce, bring to a boil over high heat, reduce heat to medium, simmer , uncovered , 10 minutes or until chicken is no longer pink in center , vegetables are tender and sauces is slightly thickened, ladle gumbo into 4 shallow bowls , top each with a scoop of rice sprinkle with parsley and serve with additional pepper sauce , if desired
+
+Name: chicken sausage gumbo
+Steps: season the chicken with salt , pepper , and creole seasoning , and brown quickly in large heavy pot, brown the sausage , pour off fat , and reserve meats, in same heavy pot , heat the oil and cook the flour in the oil over medium to high heat , stirring constantly , until the roux reaches a dark reddish-brown color , almost the color of coffee , or milk chocolate for a cajun-style roux, if you want to save time , or prefer a more new orleans-style roux , cook it to a medium , peanut-butter color over lower heat if youre nervous about burning it, add the vegetables and stir quickly, this cooks the vegetables and also stops the roux from cooking further, continue to cook , stirring constantly , for about 4 minutes, add the stock , seasonings , chicken and sausage, bring to a boil , then simmer for about 1 hour , skimming fat off as needed, add the chopped onion tops and parsley , and heat for 5 minutes, serve over rice in large shallow bowls, great with hot crusty bread !
+
+Name: chicken chorizo sausage gumbo
+Steps: first make the roux, to make roux , heat oil in saucepan, add flour and cook , stirring constantly , until flour turns a dark brown, be careful not to burn, set aside, in another saucepan , saute sausage , onions , green and red bell peppers , garlic and celery in garlic butter for approximately 10 minutes, stir in roux , canned tomatoes and seasonings and let simmer for 20 minutes, slowly stir in 1 litre chicken broth and, simmer to reduce stock for about 2 hours, adjust with water or chicken stock to taste, add the raw chicken about 5-10 minutes before serving and let it cook in the gumbo, serve over hot rice
+                            
+            User Request: cajun style gumbo with an easy roux [/INST] Based on the recipes provided, to make a Cajun-style gumbo with an easy roux, you can follow these steps:
+
+1. First, prepare the chicken by cutting it into 1-inch pieces and seasoning it with Cajun seasoning, salt, pepper, and thyme in a medium bowl. Set aside.
+2. Heat oil in a large saucepan over medium-high heat. Once hot, add the onion, bell pepper, carrots, celery, and garlic, cover and cook for 10 minutes or until the vegetables are crisp-tender. Stir once.
+3. Add the seasoned chicken to the saucepan and cook for 3 minutes, stirring occasionally.
+4. Stir in flour to the chicken and vegetable mixture and cook for 1 minute, stirring frequently to make the roux.
+5. Once the roux reaches a medium brown color, add chicken broth, tomatoes, and pepper sauce to the pot.
+6. Bring the gumbo to a boil for 10 minutes and then lower heat, allowing it to simmer.
+7. Serve the gumbo over rice.
+
+This method uses an easier roux making process compared to the traditional method that involves waiting up to 2 hours. The roux in this recipe is made by cooking the flour and oil together with the vegetables and chicken, rather than waiting for the flour to brown on its own. This approach also allows for the vegetables to cook at the same time, making the process more efficient.</s>
+--------------------------------------------------
+
+
+
+
+<s> [INST] 
+            You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+            1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+            2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+
+            Recipes:
+            Name: quick alfredo sauce
+Steps: in small sauce pan , combine cream cheese and butter, mix until creamy, add boiling water , parmesan cheese and seasoning, cook till parmesan cheese is smooth, pour over your favorite pasta and enjoy !
+
+Name: sausage alfredo pasta
+Steps: cook pasta according to package directions, drain and return to pot, meanwhile , in a large skillet , brown sausage over medium heat and drain fat from skillet, turn heat to low and add alfredo sauce, heat through, add alfredo mixture to drained , cooked pasta and mix well
+
+Name: quick penne alfredo cheese
+Steps: combine the hot pasta , alfredo sauce , cheese and heat gently over low heat or bake at 375 until bubbly !, feel free to add any of the following: grilled chicken , broccoli , cubed ham , roasted veggies , bread crumb topping , shrimp--hatever you like !, enjoy
+
+Name: alfredo bake
+Steps: preheat oven to 350 degrees, coat the bottom of the two small or one medium baking dish with a thin layer of alfredo sauce, in a medium bowl , mix the pasta , broccoli , mushrooms , chicken , garlic and alfredo sauce until combined, place mixture into baking dish and top with mozzarella and parmesan cheese, cut the butter into small pieces and scatter on top of the cheese, bake for 20 minutes or until cheese is hot and bubbly
+
+Name: mushroom chicken alfredo
+Steps: pour 1 / 3 alfredo sauce in slow cooker, add chicken , then add remaining sauce, cover , and cook an low for 8 hours, fifteen minutes before serving , add noodles and mushrooms , mixing well, sprinkle top with cheese, ready to serve when cheese is melted
+                            
+            User Request: what is the quickest way to make alfredo chicken pasta? [/INST] Based on the provided recipes, to make the quickest Alfredo chicken pasta, follow these steps:
+
+1. Cook the pasta according to its package directions. Drain it and set it aside.
+2. In a large pan, combine milk or cream with cubed chicken over medium heat and cook until the chicken is browned.
+3. Add the quick Alfredo sauce from the recipe (cream cheese, butter, parmesan cheese, and seasoning) to the pan with the chicken. Cook until the parmesan cheese is smooth.
+4. Mix the cooked pasta into the Alfredo sauce and chicken mixture, combining well.
+
+This method allows you to cook the pasta, brown the chicken, and prepare the Alfredo sauce in parallel, making the entire process more efficient compared to other recipes. It's not exactly the same as the sausage or mushroom chicken Alfredo recipes but focuses on Alfredo sauce, chicken, and pasta together in one pan.</s>
+--------------------------------------------------
+
+
+
+
+<s> [INST] 
+            You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+            1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+            2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+
+            Recipes:
+            Name: quick easy vegetarian lasagna
+Steps: heat oven to 375f, combine tofu , parmesan , eggs , garlic , herbs , salt and pepper in a medium bowl, lightly coat a 13x9-inch baking dish with vegetable cooking spray, spread about 1 cup of tomato sauce at the bottom of the pan, arrange one layer of noodles on top, spread with half the tofu mixture, top with half of the spinach , a third of the remaining sauce , and a third of the mozzarella, repeat layers , ending with noodles , sauce , and mozzarella, cover with aluminum foil and bake 30-35 minutes, let stand 5 minutes before cutting
+
+Name: boil cheesy lasagna vegetarian optional meat sauce
+Steps: preheat oven to 350f, combine ricotta , parmesan , and eggs and mix well, in a 9x13 dish , spread about 1 / 3 of the sauce, layer with half each of the uncooked lasagna noodles , ricotta mixture , remaining pasta sauce , and mozarella, repeat layering, cover tightly with alumninum foil and bake covered for 45 minutes, uncover and bake an additional 15 minutes, let stand 10 minutes before serving
+
+Name: vegetarian lasagna
+Steps: mix carrots , oregano , and spaghetti sauce together, mix ricotta , spinach , and eggs together in separate bowl, spread cup spaghetti sauce in bottom of 9 x 13 inch baking dish, layer 3 lasagna noodles , remaining sauce , ricotta mixture , sliced zucchini , sliced mushrooms , mozzarella , and parmesan, repeat layers with remaining ingredients, bake in 350 degrees oven for about 45 minutes
+
+Name: easy vegetarian chili
+Steps: saute onion in the margarine, add everthing else, cook one hour
+
+Name: vegetarian blue cheese pesto lasagna
+Steps: fry the onion and garlic for 4-5 minutes, add all vegetables and cook 10 minutes, add tinned tomatoes and sweet corn, add crumbled blue cheese , pesto , capers , olives and sun dried tomatoes, mix well --thats your sauce !, layer in a lasagna dish -- sauce , lasagna , sauce , lasagna , sauce and finish with grated cheese, done in the oven 180c for around 30 minutes !, open the wine and turn on the tunes !, have fun --
+                            
+            User Request: vegetarian lasagna but easy [/INST] Based on the provided recipes, I suggest using the "Quick Easy Vegetarian Lasagna" recipe as it is labeled as "easy" in the title. Here's the step-by-step guide:
+
+1. Heat the oven to 375°F (190°C).
+2. In a medium bowl, combine tofu, Parmesan, eggs, minced garlic, herbs, salt, and pepper.
+3. Lightly coat a 13x9-inch baking dish with vegetable cooking spray.
+4. Spread about 1 cup of tomato sauce at the bottom of the pan.
+5. Arrange one layer of noodles on top.
+6. Spread with half the tofu mixture.
+7. Top with half of the spinach.
+8. Add a third of the remaining sauce.
+9. Layer with a third of the mozzarella.
+10. Repeat layers.
+11. End with noodles, sauce, and mozzarella.
+12. Cover with aluminum foil and bake for 30-35 minutes.
+13. Let stand 5 minutes before cutting.</s>
+--------------------------------------------------
+
+
+
+
+<s> [INST] 
+            You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+            1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+            2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+
+            Recipes:
+            Name: berthas meatballs
+Steps: mix all ingredients together and shape into small meatballs, put meatballs in your favorite spaghetti sauce and simmer for two hours
+
+Name: nadine meatballs
+Steps: using your hands , mix the meatball ingredients until well combined, form into 12 meatballs and place in a greased casserole dish, combine sauce ingredients and pour over meatballs, bake uncovered at 350 degrees for 1 hour
+
+Name: please make meatballs crockpot meatballs
+Steps: put meatballs in the crockpot, combine the rest of the ingredients, pour soup mix over meatballs and stir, cover and cook on low for 8 hours or on high for 4 hours
+
+Name: meatballs sauce
+Steps: mix hamburger and other ingredients together, make into meatballs, pour sauce over the top, i use a slow cooker but can be done in the oven, if using the oven set at 350 degrees
+
+Name: sweetish meatballs
+Steps: put meatballs into 4 to 5 quart crock pot, sprinkle with salt and pepper, combine remaining 3 ingredients in medium bowl, add to crock pot, stir until coated, cook , covered on low for 5 to 6 hours or on high for 2 1 / 2 to 3 hours
+                            
+            User Request: spageti and meatballs? [/INST] Based on the provided recipes, to make spaghetti and meatballs, you can follow the steps for Bertha's Meatballs. Here's a clear, step-by-step recipe:
+
+1. Mix all meatball ingredients (from Bertha's Meatballs recipe) together.
+2. Shape the mixture into small meatballs.
+3. Put the meatballs into your favorite spaghetti sauce.
+4. Simmer the meatballs and sauce together for two hours.
+5. Cook spaghetti according to package instructions, and serve the meatballs over the cooked spaghetti.
+
+So, the recipe for Spaghetti and Meatballs would be:
+
+1. Make Bertha's Meatballs by following the steps in the Bertha's Meatballs recipe.
+2. Cook spaghetti according to package instructions.
+3. Simmer the meatballs in your favorite spaghetti sauce for two hours.
+4. Serve the meatballs over cooked spaghetti.
+
+To clarify, there isn't a specific meatball recipe mentioned in your request that matches any of the provided recipes exactly. However, since Bertha's Meatballs can be made and simmered in spaghetti sauce, this recipe will produce a Spaghetti and Meatballs dish.</s>
+--------------------------------------------------
+
+
+
+
+<s> [INST] 
+            You are a helpful sous-chef. Based on these recipes, help the user with their request, adhering to the following rules:
+            1. Rely STRICTLY on the supplied recipes. If the context is insufficient or irrelevant, state this clearly and DO NOT attempt to fulfill the request using outside knowledge.
+            2. Always provide a clear, step-by-step recipe, clearly reasoning across supplied recipes when necessary.
+
+
+            Recipes:
+            Name: two tin lunch
+Steps: mix the tuna , corn and mayonnaise together, season to taste, serve on crispbreads, garnish with parsley if desired
+
+Name: monkey lunch
+Steps: add all ingredients and blend in blender
+
+Name: neezy peazy lunch
+Steps: fry the onion with the olive oil in a saucepan until they are soft, add the frozen peas and carrots, add the water , but dont cover the vegetables with it , as the steam will also cook the vegetables, cook on a medium heat , stirring now and again , until the vegetables have softened, keep an eye on the water level, add the diced tomatoes salt and pepper to season, bring to the boil and then simmer for about 5 minutes, serve with basmati rice
+
+Name: salmon lunch muffins
+Steps: preheat oven to 350, lightly grease a 6-cup muffin tin, add all the ingredients, puree until well blended, spoon batter into prepared muffin tin , dividing evenly, bake for 30 minutes or until golden, serve warm
+
+Name: savoury lunch dish
+Steps: break cheese into small pieces, fry bacon with onions , add tomatoes and corn, when boiling , add cheese and cook only until cheese has melted, serve hot
+                            
+            User Request: lunch baked at 200 °C [/INST] Based on the provided recipes, none of them involve baking a lunch at 200 °C (approximately 400 °F). The recipes given include mixing tuna, corn, and mayonnaise (Two Tin Lunch), blending various ingredients (Monkey Lunch), cooking peas and carrots with water (Neezy Peazy Lunch), and making salmon muffins (Salmon Lunch Muffins). The Savory Lunch Dish recipe does not specify baking but frying instead. Therefore, I cannot provide a step-by-step recipe using the given context that meets your request. If you need assistance with any of the given recipes, please let me know.</s>
